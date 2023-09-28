@@ -12,11 +12,17 @@ libc = "0.2.144"
 mkstemp-rs = "1.0.0"
 
 [lib]
+# 指定库的名字
 name = "bpf_compatible"
+# 指定生成的库的类型，这里是一个动态链接库（cdylib）和一个静态库（staticlib）
 crate-type = ["cdylib", "staticlib"]
 
 [profile.release]
+# 指定优化的级别
 opt-level = 3
+# LTO 在链接阶段将所有编译单元的目标代码合并到一个中间表示（IR）中，并在这个 IR 上进行全局优化。
 lto = true
+# 是否生成调试信息
 debug = 0
+# 是否启用溢出检查
 overflow-checks = false

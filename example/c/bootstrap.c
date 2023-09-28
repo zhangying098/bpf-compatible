@@ -102,6 +102,7 @@ int main(int argc, char **argv)
 	struct ring_buffer *rb = NULL;
 	struct bootstrap_bpf *skel;
 	int err;
+	// 用于在 libbpf 库中定义和初始化 bpf_object_open_opts 结构体的变量 open_opts
 	LIBBPF_OPTS(bpf_object_open_opts, open_opts);
 	/* Parse command line arguments */
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);

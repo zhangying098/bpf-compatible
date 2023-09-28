@@ -6,9 +6,9 @@
 use std::path::{Path, PathBuf};
 
 pub use crate::error::Error;
+pub use tar;
 use tar::Archive;
 pub use tempfile;
-pub use tar;
 use tempfile::{tempdir, TempDir};
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -16,7 +16,7 @@ pub type Result<T> = std::result::Result<T, Error>;
 pub mod error;
 
 /// Generate the btf archive path of the running kernel
-/// It returns somethings like `ubuntu/20.04/x86_64/xxxxxxx.btf`
+/// It returns somethings like `ubuntu/20.04/x86_64/xxxxxxx.btf
 pub fn generate_current_system_btf_archive_path() -> Result<String> {
     let release_info = os_release::OsRelease::new().map_err(Error::OsReleaseError)?;
     let uname = uname_rs::Uname::new().map_err(Error::UnameError)?;
@@ -28,12 +28,14 @@ pub fn generate_current_system_btf_archive_path() -> Result<String> {
 }
 
 /// Try to get the btf file of the running system under the archive directory
+// impl AsRef<Path> 将 archive_path 类型转为 &Path 类型
 pub fn get_current_system_btf_file(archive_path: impl AsRef<Path>) -> Result<PathBuf> {
     Ok(archive_path
         .as_ref()
         .join(generate_current_system_btf_archive_path()?))
 }
 /// A helper type definition for simplicity
+// type 定义类型别名，这里 BtfArchive 定义为 Option<(PathBuf, TempDir)> 类型
 pub type BtfArchive = Option<(PathBuf, TempDir)>;
 
 /// Unpack a tar archive, returning the contents of `package.json`;
@@ -44,6 +46,7 @@ pub type BtfArchive = Option<(PathBuf, TempDir)>;
 ///
 /// Note: once the tempdir was destructed, the btf archive will be deleted
 pub fn unpack_tar(tar_data: &[u8]) -> Result<(Vec<u8>, BtfArchive)> {
+    // 创建一个针对于读者的存档对象
     let mut archive = Archive::new(tar_data);
     // tempdir
     let tmp_dir = tempdir().map_err(Error::TempDirError)?;

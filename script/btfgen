@@ -74,6 +74,7 @@ btfgen() {
  
   dir=$(pwd)
 
+  # 针对ebpf 的 .o 文件，会根据 btfhub-archive 下所有版本的 btf 信息，生成精简的 btf 
   find $BTFHUB_CACHE_DIR -name "*.tar.xz" -not -path "$BTFHUB_CACHE_DIR/btfhub-archive-repos/*" | \
   xargs -P 8 -I fileName sh -c 'tar xfJ "fileName" -C "$(dirname "fileName")"'
   find $BTFHUB_CACHE_DIR -name "*.btf" -not -path "$BTFHUB_CACHE_DIR/btfhub-archive-repos/*" | \
